@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { PanierProvider } from './context/PanierContext';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import Accueil from './pages/Accueil';
 import Catalogue from './pages/Catalogue';
 import DetailProduit from './pages/DetailProduit';
@@ -15,16 +17,20 @@ function App() {
     <AuthProvider>
       <PanierProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Accueil />} />
-            <Route path="/catalogue" element={<Catalogue />} />
-            <Route path="/produits/:id" element={<DetailProduit />} />
-            <Route path="/panier" element={<Panier />} />
-            <Route path="/login" element={<Connexion />} />
-            <Route path="/register" element={<Inscription />} />
-            <Route path="/mes-commandes" element={<MesCommandes />} />
-            <Route path="/admin" element={<AdminProduits />} />
-          </Routes>
+          <Header />
+          <main style={{ minHeight: '70vh', padding: '1rem 2rem' }}>
+            <Routes>
+              <Route path="/" element={<Accueil />} />
+              <Route path="/catalogue" element={<Catalogue />} />
+              <Route path="/produits/:id" element={<DetailProduit />} />
+              <Route path="/panier" element={<Panier />} />
+              <Route path="/login" element={<Connexion />} />
+              <Route path="/register" element={<Inscription />} />
+              <Route path="/mes-commandes" element={<MesCommandes />} />
+              <Route path="/admin" element={<AdminProduits />} />
+            </Routes>
+          </main>
+          <Footer />
         </BrowserRouter>
       </PanierProvider>
     </AuthProvider>
