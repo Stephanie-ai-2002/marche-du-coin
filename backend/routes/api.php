@@ -11,10 +11,10 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
-// Produits (lecture publique, écriture protégée)
+// Produits (lecture publique, écriture protégée et réservée à l'admin)
 Route::get('/produits', [ProduitController::class, 'index']);
 Route::get('/produits/{produit}', [ProduitController::class, 'show']);
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'est_admin'])->group(function () {
     Route::post('/produits', [ProduitController::class, 'store']);
     Route::put('/produits/{produit}', [ProduitController::class, 'update']);
     Route::delete('/produits/{produit}', [ProduitController::class, 'destroy']);
@@ -23,9 +23,13 @@ Route::middleware('auth:sanctum')->group(function () {
 // Catégories
 Route::get('/categories', [CategorieController::class, 'index']);
 
-// Commandes (toutes protégées)
+// Commandes (creation par le client connecté, consultation par le client ou l'admin)
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/commandes', [CommandeController::class, 'index']);
     Route::post('/commandes', [CommandeController::class, 'store']);
+    Route::get('/commandes', [CommandeController::class, 'index']);
+});
+
+// Mise a jour du statut d'une commande, reservee a l'admin
+Route::middleware(['auth:sanctum', 'est_admin'])->group(function () {
     Route::put('/commandes/{commande}', [CommandeController::class, 'update']);
 });

@@ -67,7 +67,7 @@ class CommandeController extends Controller
     public function update(Request $request, Commande $commande)
     {
         $validator = Validator::make($request->all(), [
-            'statut' => 'required|string|in:en_attente,validee,expediee,annulee',
+            'statut' => 'required|string|in:en_attente,confirmee,livree',
         ]);
 
         if ($validator->fails()) {

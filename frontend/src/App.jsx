@@ -11,6 +11,7 @@ import Connexion from './pages/Connexion';
 import Inscription from './pages/Inscription';
 import MesCommandes from './pages/MesCommandes';
 import AdminProduits from './pages/AdminProduits';
+import AdminCommandes from './pages/AdminCommandes';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/register" element={<Inscription />} />
               <Route path="/mes-commandes" element={<MesCommandes />} />
               <Route path="/admin" element={<AdminProduits />} />
+              <Route path="/admin/commandes" element={<AdminCommandes />} />
             </Routes>
           </main>
           <Footer />
