@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { PanierProvider } from './context/PanierContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import AdminLayout from './components/AdminLayout';
 import Accueil from './pages/Accueil';
 import Catalogue from './pages/Catalogue';
 import DetailProduit from './pages/DetailProduit';
@@ -11,6 +12,7 @@ import Connexion from './pages/Connexion';
 import Inscription from './pages/Inscription';
 import MesCommandes from './pages/MesCommandes';
 import AdminProduits from './pages/AdminProduits';
+import AdminCategories from './pages/AdminCategories';
 import AdminCommandes from './pages/AdminCommandes';
 
 function App() {
@@ -19,7 +21,7 @@ function App() {
       <PanierProvider>
         <BrowserRouter>
           <Header />
-          <main style={{ minHeight: '70vh', padding: '1rem 2rem' }}>
+          <main style={{ minHeight: '70vh' }}>
             <Routes>
               <Route path="/" element={<Accueil />} />
               <Route path="/catalogue" element={<Catalogue />} />
@@ -28,8 +30,12 @@ function App() {
               <Route path="/login" element={<Connexion />} />
               <Route path="/register" element={<Inscription />} />
               <Route path="/mes-commandes" element={<MesCommandes />} />
-              <Route path="/admin" element={<AdminProduits />} />
-              <Route path="/admin/commandes" element={<AdminCommandes />} />
+
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<AdminProduits />} />
+                <Route path="categories" element={<AdminCategories />} />
+                <Route path="commandes" element={<AdminCommandes />} />
+              </Route>
             </Routes>
           </main>
           <Footer />

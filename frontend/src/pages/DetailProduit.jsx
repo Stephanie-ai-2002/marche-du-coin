@@ -23,32 +23,63 @@ export default function DetailProduit() {
     setMessage('Produit ajouté au panier !');
   };
 
-  if (erreur) return <p style={{ color: 'red' }}>{erreur}</p>;
+  if (erreur) return <p style={{ color: 'var(--terracotta)' }}>{erreur}</p>;
   if (!produit) return <p>Chargement...</p>;
 
   return (
-    <div>
-      <h1>{produit.nom}</h1>
-      <p>{produit.description}</p>
-      <p><strong>{produit.prix} FCFA</strong></p>
-      <p>Catégorie : {produit.categorie?.nom}</p>
-      <p>Stock disponible : {produit.stock}</p>
-
-      <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginTop: '1rem' }}>
-        <input
-          type="number"
-          min="1"
-          max={produit.stock}
-          value={quantite}
-          onChange={(e) => setQuantite(Number(e.target.value))}
-          style={{ width: '60px' }}
-        />
-        <button onClick={handleAjouter} style={{ backgroundColor: '#E07A5F', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '4px', cursor: 'pointer' }}>
-          Ajouter au panier
-        </button>
+    <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+      {/* Image, conforme au wireframe */}
+      <div
+        style={{
+          flex: '1 1 300px',
+          minHeight: '300px',
+          background: '#eee',
+          borderRadius: '8px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#999',
+        }}
+      >
+        IMAGE PRODUIT
       </div>
 
-      {message && <p style={{ color: 'green' }}>{message}</p>}
+      {/* Infos, dans l'ordre exact du wireframe : nom, prix, description, quantité, bouton */}
+      <div style={{ flex: '1 1 300px' }}>
+        <h1>{produit.nom}</h1>
+        <p><strong>Prix : {produit.prix} FCFA</strong></p>
+        <p>{produit.description}</p>
+
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', marginTop: '1rem' }}>
+          <span>Qté</span>
+          <button
+            className="btn-secondaire"
+            onClick={() => setQuantite((q) => Math.max(1, q - 1))}
+          >
+            -
+          </button>
+          <input
+            type="number"
+            min="1"
+            max={produit.stock}
+            value={quantite}
+            onChange={(e) => setQuantite(Number(e.target.value))}
+            style={{ width: '50px', textAlign: 'center' }}
+          />
+          <button
+            className="btn-secondaire"
+            onClick={() => setQuantite((q) => Math.min(produit.stock, q + 1))}
+          >
+            +
+          </button>
+        </div>
+
+        <button className="btn-principal" onClick={handleAjouter} style={{ marginTop: '1rem' }}>
+          Ajouter au panier
+        </button>
+
+        {message && <p style={{ color: 'var(--vert)', marginTop: '0.5rem' }}>{message}</p>}
+      </div>
     </div>
   );
 }

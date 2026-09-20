@@ -21,31 +21,47 @@ export default function Connexion() {
   };
 
   return (
-    <div>
-      <h1>Connexion</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', maxWidth: '300px' }}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        {erreur && <p style={{ color: 'red' }}>{erreur}</p>}
-        <button type="submit" style={{ backgroundColor: '#2F5233', color: 'white', border: 'none', padding: '0.6rem', borderRadius: '4px', cursor: 'pointer' }}>
-          Se connecter
-        </button>
-      </form>
-      <p style={{ marginTop: '1rem' }}>
-        Pas encore de compte ? <Link to="/register">Inscrivez-vous</Link>
-      </p>
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+      <div
+        style={{
+          border: '1px solid var(--vert)',
+          borderRadius: '8px',
+          padding: '2rem',
+          width: '100%',
+          maxWidth: '360px',
+          boxSizing: 'border-box',
+        }}
+      >
+        <h1 style={{ marginTop: 0 }}>Connexion</h1>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Mot de passe"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          {erreur && <p style={{ color: 'var(--terracotta)' }}>{erreur}</p>}
+          <button type="submit" className="btn-principal">
+            Se connecter
+          </button>
+        </form>
+
+        <Link
+          to="/register"
+          className="btn-secondaire"
+          style={{ display: 'block', textAlign: 'center', marginTop: '1rem', textDecoration: 'none' }}
+        >
+          Pas de compte ? S'inscrire
+        </Link>
+      </div>
     </div>
   );
 }

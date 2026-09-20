@@ -22,6 +22,11 @@ Route::middleware(['auth:sanctum', 'est_admin'])->group(function () {
 
 // Catégories
 Route::get('/categories', [CategorieController::class, 'index']);
+Route::middleware(['auth:sanctum', 'est_admin'])->group(function () {
+    Route::post('/categories', [CategorieController::class, 'store']);
+    Route::put('/categories/{categorie}', [CategorieController::class, 'update']);
+    Route::delete('/categories/{categorie}', [CategorieController::class, 'destroy']);
+});
 
 // Commandes (creation par le client connecté, consultation par le client ou l'admin)
 Route::middleware('auth:sanctum')->group(function () {

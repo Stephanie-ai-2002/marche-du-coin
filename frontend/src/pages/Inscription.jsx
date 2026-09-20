@@ -29,45 +29,61 @@ export default function Inscription() {
   };
 
   return (
-    <div>
-      <h1>Inscription</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', maxWidth: '300px' }}>
-        <input
-          type="text"
-          placeholder="Nom"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Confirmer le mot de passe"
-          value={passwordConfirmation}
-          onChange={(e) => setPasswordConfirmation(e.target.value)}
-          required
-        />
-        {erreur && <p style={{ color: 'red' }}>{erreur}</p>}
-        <button type="submit" style={{ backgroundColor: '#2F5233', color: 'white', border: 'none', padding: '0.6rem', borderRadius: '4px', cursor: 'pointer' }}>
-          S'inscrire
-        </button>
-      </form>
-      <p style={{ marginTop: '1rem' }}>
-        Déjà un compte ? <Link to="/login">Connectez-vous</Link>
-      </p>
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+      <div
+        style={{
+          border: '1px solid var(--vert)',
+          borderRadius: '8px',
+          padding: '2rem',
+          width: '100%',
+          maxWidth: '360px',
+          boxSizing: 'border-box',
+        }}
+      >
+        <h1 style={{ marginTop: 0 }}>Inscription</h1>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+          <input
+            type="text"
+            placeholder="Nom"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Mot de passe"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Confirmer le mot de passe"
+            value={passwordConfirmation}
+            onChange={(e) => setPasswordConfirmation(e.target.value)}
+            required
+          />
+          {erreur && <p style={{ color: 'var(--terracotta)' }}>{erreur}</p>}
+          <button type="submit" className="btn-principal">
+            S'inscrire
+          </button>
+        </form>
+
+        <Link
+          to="/login"
+          className="btn-secondaire"
+          style={{ display: 'block', textAlign: 'center', marginTop: '1rem', textDecoration: 'none' }}
+        >
+          Déjà un compte ? Se connecter
+        </Link>
+      </div>
     </div>
   );
 }

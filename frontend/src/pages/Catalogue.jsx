@@ -27,39 +27,63 @@ export default function Catalogue() {
   }, [recherche, categorieId]);
 
   return (
-    <div>
-      <h1>Catalogue</h1>
-
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem' }}>
+    <div className="catalogue-layout">
+      {/* Sidebar gauche — recherche + catégories, conforme au wireframe */}
+      <aside className="catalogue-sidebar">
         <input
           type="text"
-          placeholder="Rechercher un produit..."
+          placeholder="Recherche..."
           value={recherche}
           onChange={(e) => setRecherche(e.target.value)}
+          style={{ width: '100%', boxSizing: 'border-box', marginBottom: '1rem' }}
         />
-        <select value={categorieId} onChange={(e) => setCategorieId(e.target.value)}>
-          <option value="">Toutes les catégories</option>
-          {categories.map((cat) => (
-            <option key={cat.id} value={cat.id}>{cat.nom}</option>
-          ))}
-        </select>
-      </div>
 
-      {chargement && <p>Chargement...</p>}
-      {erreur && <p style={{ color: 'red' }}>{erreur}</p>}
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
-        {!chargement && produits.length === 0 && <p>Aucun produit trouvé.</p>}
-        {produits.map((produit) => (
-          <Link
-            key={produit.id}
-            to={`/produits/${produit.id}`}
-            style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '1rem', textDecoration: 'none', color: '#333' }}
+        <h2 style={{ fontSize: '1.1rem' }}>Catégories</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <button
+            className={categorieId === '' ? 'btn-principal' : 'btn-secondaire'}
+            onClick={() => setCategorieId('')}
           >
-            <h3>{produit.nom}</h3>
-            <p>{produit.prix} FCFA</p>
-          </Link>
-        ))}
+            Toutes
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              className={categorieId === String(cat.id) ? 'btn-principal' : 'btn-secondaire'}
+              onClick={() => setCategorieId(String(cat.id))}
+            >
+              {cat.nom}
+            </button>
+          ))}
+        </div>
+      </aside>
+
+      {/* Zone de contenu droite — grille de produits, conforme au wireframe */}
+      <div style={{ flex: 1 }}>
+        <h2>Catalogue des produits ({produits.length} résultats)</h2>
+
+        {chargement && <p>Chargement...</p>}
+        {erreur && <p style={{ color: 'var(--terracotta)' }}>{erreur}</p>}
+        {!chargement && produits.length === 0 && <p>Aucun produit trouvé.</p>}
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
+          {produits.map((produit) => (
+            <Link
+              key={produit.id}
+              to={`/produits/${produit.id}`}
+              style={{
+                border: '1px solid var(--vert)',
+                borderRadius: '8px',
+                padding: '1rem',
+                textDecoration: 'none',
+                color: 'var(--gris)',
+              }}
+            >
+              <h3>{produit.nom}</h3>
+              <p>{produit.prix} FCFA</p>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );

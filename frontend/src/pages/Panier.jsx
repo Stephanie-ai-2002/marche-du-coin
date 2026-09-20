@@ -30,7 +30,7 @@ export default function Panier() {
   if (articles.length === 0) {
     return (
       <div>
-        <h1>Panier</h1>
+        <h1>Mon panier</h1>
         <p>Votre panier est vide.</p>
         <Link to="/catalogue">Voir le catalogue</Link>
       </div>
@@ -39,31 +39,78 @@ export default function Panier() {
 
   return (
     <div>
-      <h1>Panier</h1>
+      <h1>Mon panier</h1>
+
       {articles.map((a) => (
-        <div key={a.produit.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #ddd', padding: '0.5rem 0' }}>
-          <span>{a.produit.nom}</span>
-          <input
-            type="number"
-            min="1"
-            value={a.quantite}
-            onChange={(e) => modifierQuantite(a.produit.id, Number(e.target.value))}
-            style={{ width: '50px' }}
-          />
-          <span>{a.produit.prix * a.quantite} FCFA</span>
-          <button onClick={() => retirerArticle(a.produit.id)} style={{ color: 'red', border: 'none', background: 'none', cursor: 'pointer' }}>
+        <div
+          key={a.produit.id}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+            border: '1px solid var(--vert)',
+            borderRadius: '8px',
+            padding: '0.75rem',
+            marginBottom: '0.75rem',
+          }}
+        >
+          <div
+            style={{
+              width: '60px',
+              height: '60px',
+              flexShrink: 0,
+              background: '#eee',
+              borderRadius: '4px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#999',
+              fontSize: '0.7rem',
+            }}
+          >
+            IMG
+          </div>
+
+          <span style={{ flex: 1, textAlign: 'left' }}>{a.produit.nom}</span>
+
+          <label>
+            Qté{' '}
+            <input
+              type="number"
+              min="1"
+              value={a.quantite}
+              onChange={(e) => modifierQuantite(a.produit.id, Number(e.target.value))}
+              style={{ width: '50px' }}
+            />
+          </label>
+
+          <span style={{ width: '100px', textAlign: 'right' }}>{a.produit.prix * a.quantite} FCFA</span>
+
+          <button className="btn-secondaire" onClick={() => retirerArticle(a.produit.id)}>
             Retirer
           </button>
         </div>
       ))}
 
-      <p style={{ marginTop: '1rem', fontWeight: 'bold' }}>Total : {total} FCFA</p>
+      <div
+        style={{
+          borderTop: '1px solid var(--vert)',
+          marginTop: '1rem',
+          paddingTop: '1rem',
+          textAlign: 'right',
+          fontWeight: 'bold',
+        }}
+      >
+        Total : {total} FCFA
+      </div>
 
-      {erreur && <p style={{ color: 'red' }}>{erreur}</p>}
+      {erreur && <p style={{ color: 'var(--terracotta)' }}>{erreur}</p>}
 
-      <button onClick={handleCommander} style={{ backgroundColor: '#2F5233', color: 'white', border: 'none', padding: '0.6rem 1.2rem', borderRadius: '4px', cursor: 'pointer' }}>
-        Valider la commande
-      </button>
+      <div style={{ textAlign: 'right', marginTop: '1rem' }}>
+        <button className="btn-principal" onClick={handleCommander}>
+          Valider la commande
+        </button>
+      </div>
     </div>
   );
 }
