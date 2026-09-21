@@ -34,8 +34,13 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
+  const mettreAJourUtilisateur = (utilisateurMisAJour) => {
+    localStorage.setItem('user', JSON.stringify(utilisateurMisAJour));
+    setUser(utilisateurMisAJour);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout, mettreAJourUtilisateur }}>
       {children}
     </AuthContext.Provider>
   );

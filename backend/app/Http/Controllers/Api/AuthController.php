@@ -68,4 +68,28 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Déconnexion réussie']);
     }
+
+    public function profil(Request $request)
+    {
+        return response()->json($request->user());
+    }
+
+    public function updateProfil(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $request->user()->id,
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $request->user()->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        return response()->json($request->user());
+    }
 }

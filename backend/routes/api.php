@@ -11,6 +11,12 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
+// Profil de l'utilisateur connecté
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/profil', [AuthController::class, 'profil']);
+    Route::put('/profil', [AuthController::class, 'updateProfil']);
+});
+
 // Produits (lecture publique, écriture protégée et réservée à l'admin)
 Route::get('/produits', [ProduitController::class, 'index']);
 Route::get('/produits/{produit}', [ProduitController::class, 'show']);
