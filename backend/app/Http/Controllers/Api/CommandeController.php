@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCommandeRequest;
+use App\Http\Requests\UpdateCommandeRequest;
 use App\Models\Commande;
 use App\Models\LigneCommande;
 use App\Models\Produit;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class CommandeController extends Controller
 {
@@ -26,20 +27,12 @@ class CommandeController extends Controller
         return response()->json($commandes);
     }
 
-    public function store(Request $request)
+    public function store(StoreCommandeRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'articles' => 'required|array|min:1',
-            'articles.*.produit_id' => 'required|exists:produits,id',
-            'articles.*.quantite' => 'required|integer|min:1',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        $articles = $request->validated()['articles'];
 
         $total = 0;
-        foreach ($request->articles as $article) {
+        foreach ($articles as $article) {
             $produit = Produit::findOrFail($article['produit_id']);
             $total += $produit->prix * $article['quantite'];
         }
@@ -51,7 +44,7 @@ class CommandeController extends Controller
             'total' => $total,
         ]);
 
-        foreach ($request->articles as $article) {
+        foreach ($articles as $article) {
             $produit = Produit::findOrFail($article['produit_id']);
             LigneCommande::create([
                 'commande_id' => $commande->id,
@@ -64,17 +57,9 @@ class CommandeController extends Controller
         return response()->json($commande->load('lignes.produit'), 201);
     }
 
-    public function update(Request $request, Commande $commande)
+    public function update(UpdateCommandeRequest $request, Commande $commande)
     {
-        $validator = Validator::make($request->all(), [
-            'statut' => 'required|string|in:en_attente,confirmee,livree',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $commande->update(['statut' => $request->statut]);
+        $commande->update($request->validated());
 
         return response()->json($commande);
     }
