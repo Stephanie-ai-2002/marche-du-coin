@@ -1,7 +1,10 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function AdminLayout() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const liens = [
     { to: '/admin', label: 'Produits' },
@@ -9,34 +12,40 @@ export default function AdminLayout() {
     { to: '/admin/commandes', label: 'Commandes' },
   ];
 
+  const handleDeconnexion = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
-    <div style={{ display: 'flex', minHeight: '80vh' }}>
-      <aside style={{ width: '220px', backgroundColor: '#2F5233', color: 'white', padding: '1.5rem 1rem' }}>
-        <h2 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '1.1rem', marginBottom: '1.5rem' }}>
-          Espace Admin
-        </h2>
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-          {liens.map((lien) => (
-            <Link
-              key={lien.to}
-              to={lien.to}
-              style={{
-                color: 'white',
-                textDecoration: 'none',
-                padding: '0.5rem 0.8rem',
-                borderRadius: '4px',
-                backgroundColor: location.pathname === lien.to ? '#E07A5F' : 'transparent',
-                fontFamily: 'Inter, sans-serif',
-              }}
-            >
-              {lien.label}
-            </Link>
-          ))}
-        </nav>
-      </aside>
-      <main style={{ flex: 1, padding: '1.5rem 2rem', backgroundColor: '#FAF3E8' }}>
-        <Outlet />
-      </main>
+    <div className="admin-layout">
+      <header className="admin-header">
+        <span>Marché du Coin — Administration</span>
+        <button className="admin-header__logout" onClick={handleDeconnexion}>
+          Déconnexion
+        </button>
+      </header>
+
+      <div className="admin-body">
+        <aside className="admin-sidebar">
+          <h2 className="admin-sidebar__title">Menu Admin</h2>
+          <nav className="admin-sidebar__nav">
+            {liens.map((lien) => (
+              <Link
+                key={lien.to}
+                to={lien.to}
+                className={`admin-sidebar__link ${location.pathname === lien.to ? 'admin-sidebar__link--actif' : ''}`}
+              >
+                {lien.label}
+              </Link>
+            ))}
+          </nav>
+        </aside>
+
+        <main className="admin-content">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }

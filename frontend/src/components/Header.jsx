@@ -7,11 +7,11 @@ export default function Header() {
   const { articles } = usePanier();
 
   return (
-    <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 2rem', backgroundColor: '#2F5233', color: 'white' }}>
-      <Link to="/" style={{ color: 'white', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.2rem' }}>
+        <header className="site-header">
+      <Link to="/" className="site-header__logo">
         Marché du Coin
       </Link>
-      <nav style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+      <nav className="site-header__nav">
         <Link to="/catalogue" style={{ color: 'white' }}>Catalogue</Link>
         <Link to="/panier" style={{ color: 'white' }}>Panier ({articles.length})</Link>
         {user ? (
