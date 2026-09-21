@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProduitRequest;
+use App\Http\Requests\UpdateProduitRequest;
 use App\Models\Produit;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class ProduitController extends Controller
 {
@@ -28,42 +29,16 @@ class ProduitController extends Controller
         return response()->json($produit->load('categorie'));
     }
 
-    public function store(Request $request)
+    public function store(StoreProduitRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'nom' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'prix' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'image' => 'nullable|string',
-            'categorie_id' => 'required|exists:categories,id',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $produit = Produit::create($request->all());
+        $produit = Produit::create($request->validated());
 
         return response()->json($produit, 201);
     }
 
-    public function update(Request $request, Produit $produit)
+    public function update(UpdateProduitRequest $request, Produit $produit)
     {
-        $validator = Validator::make($request->all(), [
-            'nom' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'prix' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'image' => 'nullable|string',
-            'categorie_id' => 'required|exists:categories,id',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $produit->update($request->all());
+        $produit->update($request->validated());
 
         return response()->json($produit);
     }
