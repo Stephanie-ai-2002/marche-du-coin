@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCategorieRequest;
+use App\Http\Requests\UpdateCategorieRequest;
 use App\Models\Categorie;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class CategorieController extends Controller
 {
@@ -14,34 +14,16 @@ class CategorieController extends Controller
         return response()->json(Categorie::all());
     }
 
-    public function store(Request $request)
+    public function store(StoreCategorieRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'nom' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $categorie = Categorie::create($request->all());
+        $categorie = Categorie::create($request->validated());
 
         return response()->json($categorie, 201);
     }
 
-    public function update(Request $request, Categorie $categorie)
+    public function update(UpdateCategorieRequest $request, Categorie $categorie)
     {
-        $validator = Validator::make($request->all(), [
-            'nom' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $categorie->update($request->all());
+        $categorie->update($request->validated());
 
         return response()->json($categorie);
     }
