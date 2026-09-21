@@ -28,23 +28,32 @@ export default function DetailProduit() {
 
   return (
     <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
-      {/* Image, conforme au wireframe */}
-      <div
-        style={{
-          flex: '1 1 300px',
-          minHeight: '300px',
-          background: '#eee',
-          borderRadius: '8px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#999',
-        }}
-      >
-        IMAGE PRODUIT
-      </div>
+      {produit.image ? (
+        <img
+          src={produit.image}
+          alt={produit.nom}
+          loading="lazy"
+          width="300"
+          height="300"
+          style={{ flex: '1 1 300px', minHeight: '300px', maxWidth: '400px', objectFit: 'cover', borderRadius: '8px' }}
+        />
+      ) : (
+        <div
+          style={{
+            flex: '1 1 300px',
+            minHeight: '300px',
+            background: '#eee',
+            borderRadius: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#999',
+          }}
+        >
+          IMAGE PRODUIT
+        </div>
+      )}
 
-      {/* Infos, dans l'ordre exact du wireframe : nom, prix, description, quantité, bouton */}
       <div style={{ flex: '1 1 300px' }}>
         <h1>{produit.nom}</h1>
         <p><strong>Prix : {produit.prix} FCFA</strong></p>

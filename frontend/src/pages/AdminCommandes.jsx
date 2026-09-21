@@ -30,7 +30,7 @@ export default function AdminCommandes() {
     <div>
       <h1>Gestion des commandes</h1>
       {erreur && <p style={{ color: 'red' }}>{erreur}</p>}
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <table className="admin-table">
         <thead>
           <tr>
             <th>N°</th>

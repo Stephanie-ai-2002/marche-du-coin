@@ -59,7 +59,7 @@ export default function AdminCategories() {
     <div>
       <h1 style={{ fontFamily: 'Poppins, sans-serif', color: '#333333' }}>Gestion des catégories</h1>
 
-      <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '0.8rem', marginBottom: '1.5rem', alignItems: 'flex-end' }}>
+      <form onSubmit={handleSubmit} className="admin-form">
         <div>
           <label>Nom</label><br />
           <input
@@ -98,7 +98,7 @@ export default function AdminCategories() {
 
       {erreur && <p style={{ color: 'red' }}>{erreur}</p>}
 
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <table className="admin-table">
         <thead>
           <tr style={{ textAlign: 'left', borderBottom: '2px solid #2F5233' }}>
             <th>Nom</th>

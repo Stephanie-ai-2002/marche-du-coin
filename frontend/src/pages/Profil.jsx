@@ -1,25 +1,24 @@
-import { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../contexts/AuthContext";
-import api from "../services/api";
+import { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
+import api from '../api/axios';
 
 function Profil() {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, mettreAJourUtilisateur } = useAuth();
 
-  const [nom, setNom] = useState("");
-  const [email, setEmail] = useState("");
+  const [nom, setNom] = useState('');
+  const [email, setEmail] = useState('');
   const [chargement, setChargement] = useState(true);
   const [enregistrement, setEnregistrement] = useState(false);
   const [erreurs, setErreurs] = useState({});
-  const [messageSucces, setMessageSucces] = useState("");
+  const [messageSucces, setMessageSucces] = useState('');
 
   useEffect(() => {
-    api
-      .get("/profil")
+    api.get('/profil')
       .then((res) => {
         setNom(res.data.name);
         setEmail(res.data.email);
       })
-      .catch(() => setErreurs({ global: "Impossible de charger le profil." }))
+      .catch(() => setErreurs({ global: 'Impossible de charger le profil.' }))
       .finally(() => setChargement(false));
   }, []);
 
@@ -27,19 +26,17 @@ function Profil() {
     e.preventDefault();
     setEnregistrement(true);
     setErreurs({});
-    setMessageSucces("");
+    setMessageSucces('');
 
     try {
-      const res = await api.put("/profil", { name: nom, email });
-      setUser(res.data);
-      setMessageSucces("Profil mis à jour avec succès.");
+      const res = await api.put('/profil', { name: nom, email });
+      mettreAJourUtilisateur(res.data);
+      setMessageSucces('Profil mis à jour avec succès.');
     } catch (err) {
       if (err.response?.status === 422) {
         setErreurs(err.response.data.errors);
       } else {
-        setErreurs({
-          global: "Une erreur est survenue lors de l'enregistrement.",
-        });
+        setErreurs({ global: "Une erreur est survenue lors de l'enregistrement." });
       }
     } finally {
       setEnregistrement(false);
@@ -77,7 +74,7 @@ function Profil() {
         {erreurs.email && <p className="erreur">{erreurs.email[0]}</p>}
 
         <button type="submit" disabled={enregistrement}>
-          {enregistrement ? "Enregistrement..." : "Enregistrer"}
+          {enregistrement ? 'Enregistrement...' : 'Enregistrer'}
         </button>
       </form>
     </div>

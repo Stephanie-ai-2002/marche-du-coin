@@ -28,7 +28,6 @@ export default function Catalogue() {
 
   return (
     <div className="catalogue-layout">
-      {/* Sidebar gauche — recherche + catégories, conforme au wireframe */}
       <aside className="catalogue-sidebar">
         <input
           type="text"
@@ -58,7 +57,6 @@ export default function Catalogue() {
         </div>
       </aside>
 
-      {/* Zone de contenu droite — grille de produits, conforme au wireframe */}
       <div style={{ flex: 1 }}>
         <h2>Catalogue des produits ({produits.length} résultats)</h2>
 
@@ -79,6 +77,31 @@ export default function Catalogue() {
                 color: 'var(--gris)',
               }}
             >
+              {produit.image ? (
+                <img
+                  src={produit.image}
+                  alt={produit.nom}
+                  loading="lazy"
+                  width="200"
+                  height="120"
+                  style={{ width: '100%', height: '120px', objectFit: 'cover', borderRadius: '4px', marginBottom: '0.5rem' }}
+                />
+              ) : (
+                <div
+                  style={{
+                    background: '#eee',
+                    borderRadius: '4px',
+                    height: '120px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#999',
+                    marginBottom: '0.5rem',
+                  }}
+                >
+                  IMG
+                </div>
+              )}
               <h3>{produit.nom}</h3>
               <p>{produit.prix} FCFA</p>
             </Link>

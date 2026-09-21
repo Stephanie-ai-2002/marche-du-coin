@@ -11,7 +11,6 @@ export default function Accueil() {
 
   return (
     <div>
-      {/* Bannière, conforme au wireframe Page d'accueil */}
       <div
         style={{
           background: 'var(--vert)',
@@ -34,20 +33,31 @@ export default function Accueil() {
             key={produit.id}
             style={{ border: '1px solid var(--vert)', borderRadius: '8px', padding: '1rem' }}
           >
-            <div
-              style={{
-                background: '#eee',
-                borderRadius: '4px',
-                height: '120px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#999',
-                marginBottom: '0.5rem',
-              }}
-            >
-              IMG
-            </div>
+            {produit.image ? (
+              <img
+                src={produit.image}
+                alt={produit.nom}
+                loading="lazy"
+                width="220"
+                height="120"
+                style={{ width: '100%', height: '120px', objectFit: 'cover', borderRadius: '4px', marginBottom: '0.5rem' }}
+              />
+            ) : (
+              <div
+                style={{
+                  background: '#eee',
+                  borderRadius: '4px',
+                  height: '120px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#999',
+                  marginBottom: '0.5rem',
+                }}
+              >
+                IMG
+              </div>
+            )}
             <h3 style={{ margin: '0 0 0.25rem' }}>{produit.nom}</h3>
             <p style={{ margin: '0 0 0.75rem' }}>{produit.prix} FCFA</p>
             <Link to={`/produits/${produit.id}`} className="btn-secondaire" style={{ display: 'block', textAlign: 'center' }}>

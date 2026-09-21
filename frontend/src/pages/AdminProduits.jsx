@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 
-const PRODUIT_VIDE = { nom: '', description: '', prix: '', stock: '', categorie_id: '' };
+const PRODUIT_VIDE = { nom: '', description: '', prix: '', stock: '', categorie_id: '', image: '' };
 
 export default function AdminProduits() {
   const { user } = useAuth();
@@ -40,6 +40,7 @@ export default function AdminProduits() {
       prix: p.prix,
       stock: p.stock,
       categorie_id: p.categorie?.id || '',
+      image: p.image || '',
     });
     setIdEnEdition(p.id);
     setFormOuvert(true);
@@ -120,6 +121,12 @@ export default function AdminProduits() {
             onChange={(e) => setProduitEnCours({ ...produitEnCours, stock: e.target.value })}
             required
           />
+          <input
+            type="url"
+            placeholder="URL de l'image (https://...)"
+            value={produitEnCours.image}
+            onChange={(e) => setProduitEnCours({ ...produitEnCours, image: e.target.value })}
+          />
           <select
             value={produitEnCours.categorie_id}
             onChange={(e) => setProduitEnCours({ ...produitEnCours, categorie_id: e.target.value })}
@@ -139,9 +146,10 @@ export default function AdminProduits() {
         </form>
       )}
 
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <table className="admin-table">
         <thead>
           <tr>
+            <th>Image</th>
             <th>Nom</th>
             <th>Catégorie</th>
             <th>Prix</th>
@@ -152,6 +160,13 @@ export default function AdminProduits() {
         <tbody>
           {produits.map((p) => (
             <tr key={p.id}>
+              <td>
+                {p.image ? (
+                  <img src={p.image} alt={p.nom} loading="lazy" width="48" height="48" style={{ objectFit: 'cover', borderRadius: '4px' }} />
+                ) : (
+                  <div style={{ width: 48, height: 48, background: '#eee', borderRadius: '4px' }} />
+                )}
+              </td>
               <td>{p.nom}</td>
               <td>{p.categorie?.nom}</td>
               <td>{p.prix} FCFA</td>
