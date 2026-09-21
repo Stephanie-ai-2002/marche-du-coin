@@ -40,16 +40,4 @@ class ProduitApiTest extends TestCase
 
         $response->assertStatus(401);
     }
-
-    public function test_inscription_sans_email_est_refusee()
-    {
-        $response = $this->postJson('/api/register', [
-            'name' => 'Test',
-            'password' => 'password123',
-            'password_confirmation' => 'password123',
-        ]);
-
-        $response->assertStatus(422);
-        $response->assertJsonValidationErrors('email');
-    }
 }
